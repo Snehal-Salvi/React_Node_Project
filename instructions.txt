@@ -1,0 +1,7 @@
+Created a folder called Demo_Project.
+Open Demo_Project in VS code and create 2 folder frontend and backend.
+Open github create new repository.
+In Demo_Project open integrated terminal and intitialized git repo.
+
+
+
