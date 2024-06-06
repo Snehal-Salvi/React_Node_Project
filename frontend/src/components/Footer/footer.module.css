@@ -1,0 +1,59 @@
+ .footer{
+  background-color: rgb(210, 236, 234);
+ }
+
+.logoAndText {
+  display: flex;
+  align-items: center;
+
+}
+
+.appLogo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  margin-left: 20px;
+  border-radius: 50%;
+}
+
+.footerText {
+  font-size: 18px;
+}
+
+ 
+
+.socialLinks a {
+  color: #2b2d46;
+  font-size: 20px;
+  transition: color 0.3s;
+  margin-right: 20px;
+}
+
+.socialLinks a:hover {
+  color: #0073e6;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logoAndText {
+    margin-bottom: 10px;
+    justify-content: center;
+  }
+
+  .footerText {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .appLogo {
+    margin-left: 0;
+  }
+
+  .socialLinks a {
+    margin-right: 10px;
+  }
+}
