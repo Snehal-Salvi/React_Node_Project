@@ -2,6 +2,19 @@ Created a folder called Demo_Project.
 Open Demo_Project in VS code and create 2 folder frontend and backend.
 Open github create new repository.
 In Demo_Project open integrated terminal and intitialized git repo.
+**********************************************************************
+
+choose frontend folder open integrated terminal (cd frontend)
+and run command: npx create-react-app .
+
+choose backend folder open integrated terminal (cd backend)
+and run command: npm init -y 
+                 npm i express
+add gitignore file and write node_modules
+
+**********************************************************************
+
+
 
 
 
