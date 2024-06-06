@@ -11,8 +11,23 @@ choose backend folder open integrated terminal (cd backend)
 and run command: npm init -y 
                  npm i express
 add gitignore file and write node_modules
+create index.js file
 
 **********************************************************************
+
+To run frontend use command: npm start
+To run backend use command: nodemon index.js
+
+**********************************************************************
+
+in frontend in src folder create new folder components and create header.js 
+and footer.js  and Home.js files
+
+install: npm i react-router-dom
+
+and create routes in app folder
+
+
 
 
 
