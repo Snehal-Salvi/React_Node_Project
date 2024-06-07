@@ -42,6 +42,12 @@ created user controller and routes
 created auth route
 and created a new user from postman
 
+**********************************************************************
+backend:
+install bcrypt and save hashed password in db
+
+
+
 
 
 
