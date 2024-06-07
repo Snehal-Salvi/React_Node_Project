@@ -38,6 +38,7 @@ add .env file and connect to mongodb
 **********************************************************************
 
 created user model in backend
+created user controller and routes
 
 
 
