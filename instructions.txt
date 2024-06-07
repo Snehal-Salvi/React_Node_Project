@@ -27,6 +27,10 @@ install: npm i react-router-dom
 
 and create routes in app folder
 
+**********************************************************************
+in backend package.json file add   "type": "module",
+create server and listen to it in index.js 
+
 
 
 
