@@ -1,3 +1,5 @@
 npm init -y 
 npm i express
 npm i body-parser
+npm i mongoose
+npm i dotenv
