@@ -36,9 +36,11 @@ in backend create config folder add mongoose.js file
 add .env file and connect to mongodb
 
 **********************************************************************
-
+backend:
 created user model in backend
 created user controller and routes
+created auth route
+and created a new user from postman
 
 
 
