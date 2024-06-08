@@ -46,6 +46,13 @@ and created a new user from postman
 backend:
 install bcrypt and save hashed password in db
 
+**********************************************************************
+backend:
+created middleware and error handler
+
+**********************************************************************
+
+
 
 
 
