@@ -55,6 +55,13 @@ created middleware and error handler
 frontend: 
 created signup page UI
 
+**********************************************************************
+
+in backend added cors 
+in frontend connected signup functionality frontend to backend 
+
+**********************************************************************
+
 
 
 

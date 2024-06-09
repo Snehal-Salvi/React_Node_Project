@@ -1,27 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BACKEND_URL } from '../../utils/constants.js';
 import styles from "./signup.module.css";
-import { Link } from "react-router-dom";
+import Loader from "../../components/Loader/Loader.js";
+ 
 
 export default function Signup() {
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.username || !formData.email || !formData.password) {
+      return setErrorMessage('Please fill out all fields.');
+    }
+    try {
+      setLoading(true);
+      setErrorMessage(null);
+      const res = await fetch(`${BACKEND_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        return setErrorMessage(data.message);
+      }
+      if (res.ok) {
+        navigate('/sign-in');
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={styles.signupContainer}>
       <h1>Sign up</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
+        {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
         <div>
           <label htmlFor="username">Username</label>
-          <input type="text" placeholder="username" id="username" />
+          <input type="text" placeholder="username" id="username" onChange={handleChange} />
         </div>
 
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" placeholder="abc@email.com" id="email" />
+          <input type="email" placeholder="abc@email.com" id="email" onChange={handleChange} />
         </div>
 
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" placeholder="password" id="password" />
+          <input type="password" placeholder="password" id="password" onChange={handleChange} />
         </div>
-        <button>Signup</button>
+
+        <button type="submit" disabled={loading}>
+          {loading ? <Loader /> : 'Signup'}
+        </button>
       </form>
 
       <div>
