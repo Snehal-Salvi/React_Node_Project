@@ -52,6 +52,9 @@ created middleware and error handler
 
 **********************************************************************
 
+frontend: 
+created signup page UI
+
 
 
 
