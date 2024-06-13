@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from '../../utils/constants.js';
-import styles from "./signup.module.css";
+import styles from "./auth.module.css";
 import Loader from "../../components/Loader/Loader.js";
  
 
-export default function Signup() {
+export default function SignIn() {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -17,13 +17,13 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.username || !formData.email || !formData.password) {
+    if (  !formData.email || !formData.password) {
       return setErrorMessage('Please fill out all fields.');
     }
     try {
       setLoading(true);
       setErrorMessage(null);
-      const res = await fetch(`${BACKEND_URL}/api/auth/signup`, {
+      const res = await fetch(`${BACKEND_URL}/api/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -34,7 +34,7 @@ export default function Signup() {
         return setErrorMessage(data.message);
       }
       if (res.ok) {
-        navigate('/sign-in');
+        navigate('/');
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -43,15 +43,11 @@ export default function Signup() {
   };
 
   return (
-    <div className={styles.signupContainer}>
+    <div className={styles.authContainer}>
       <h1>Sign up</h1>
       <form onSubmit={handleSubmit}>
         {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
-        <div>
-          <label htmlFor="username">Username</label>
-          <input type="text" placeholder="username" id="username" onChange={handleChange} />
-        </div>
-
+        
         <div>
           <label htmlFor="email">Email</label>
           <input type="email" placeholder="abc@email.com" id="email" onChange={handleChange} />
@@ -59,17 +55,17 @@ export default function Signup() {
 
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" placeholder="password" id="password" onChange={handleChange} />
+          <input type="password" placeholder="*********" id="password" onChange={handleChange} />
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? <Loader /> : 'Signup'}
+          {loading ? <Loader /> : 'Sign In'}
         </button>
       </form>
 
       <div>
-        <span>Have an account? </span>
-        <Link to="/signin">SignIn</Link>
+        <span>Don't have an account? </span>
+        <Link to="/signup">SignUp</Link>
       </div>
     </div>
   );

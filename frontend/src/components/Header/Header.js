@@ -46,7 +46,7 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/login">
+                <Link to="/signup">
                   <button
                     className={`btn btn-outline-success  ${styles.loginButton} `}
                   >

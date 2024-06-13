@@ -1,6 +1,6 @@
-/* signup.module.css */
+ 
 
-.signupContainer {
+.authContainer {
     max-width: 500px;
     margin: auto;
     padding: 20px;
@@ -13,7 +13,7 @@
   
   }
   
-  .signupContainer h1 {
+  .authContainer h1 {
     text-align: center;
     color: #000000;
     margin-bottom: 20px;
