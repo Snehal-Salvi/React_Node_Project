@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from '../../utils/constants.js';
 import styles from "./auth.module.css";
 import Loader from "../../components/Loader/Loader.js";
+import { useDispatch, useSelector } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../../Redux/user/userSlice.js";
  
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,33 +20,32 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (  !formData.email || !formData.password) {
-      return setErrorMessage('Please fill out all fields.');
+      return dispatch(signInFailure('Please fill all the fields'));
     }
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(signInStart());
       const res = await fetch(`${BACKEND_URL}/api/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      setLoading(false);
+ 
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
       if (res.ok) {
+        dispatch(signInSuccess(data));
         navigate('/');
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
 
   return (
     <div className={styles.authContainer}>
-      <h1>Sign up</h1>
+      <h1>Sign In</h1>
       <form onSubmit={handleSubmit}>
         {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
         
