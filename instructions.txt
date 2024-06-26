@@ -70,6 +70,30 @@ Setting up redux toolkit
 
 **********************************************************************
 
+Adding OAuth functionality
+
+In component folder create new file OAuth.js
+Add OAuth component in signin and signup page
+Go to firebase website and login click on go to console
+Website: https://firebase.google.com 
+Go to console > Add project > Give name > Continue> disable Google Analytics for this project
+> create project > continue > choose web > give name > register app 
+in frontend  install: npm install firebase 
+create new file firebase.js in src
+and paste the code from firebase website
+create .env file in frontend folder and move API key there
+(give name REACT_APP_FIREBASE_API_KEY in create react app and import using process.env.REACT_APP_FIREBASE_API_KEY
+and in vite app give name VITE_FIREBASE_API_KEY  and import using import.meta.env.VITE_FIREBASE_API_KEY
+)
+export the firebase file (add export in last line)
+click on continue to console
+choose Authetication > get started > choose google > click enable > give name and email > save
+
+in backend add Oauth controller routes and model
+
+**********************************************************************
+
+
 
 
 

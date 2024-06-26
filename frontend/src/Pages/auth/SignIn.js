@@ -5,6 +5,7 @@ import styles from "./auth.module.css";
 import Loader from "../../components/Loader/Loader.js";
 import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSuccess } from "../../Redux/user/userSlice.js";
+import OAuth from "../../components/OAuth/OAuth.js";
  
 
 export default function SignIn() {
@@ -62,6 +63,7 @@ export default function SignIn() {
         <button type="submit" disabled={loading}>
           {loading ? <Loader /> : 'Sign In'}
         </button>
+        <OAuth/>
       </form>
 
       <div>

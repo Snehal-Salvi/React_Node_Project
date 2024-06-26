@@ -1,7 +1,9 @@
 npx create-react-app .
 npm i react-router-dom
 npm install bootstrap 
+npm install bootstrap react-bootstrap react-icons
 npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome
 npm install @fortawesome/free-brands-svg-icons
 npm install @reduxjs/toolkit react-redux
 npm i redux-persist
+npm install firebase

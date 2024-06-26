@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from '../../utils/constants.js';
 import styles from "./auth.module.css";
 import Loader from "../../components/Loader/Loader.js";
+import OAuth from "../../components/OAuth/OAuth.js";
  
 
 export default function SignUp() {
@@ -65,6 +66,7 @@ export default function SignUp() {
         <button type="submit" disabled={loading}>
           {loading ? <Loader /> : 'Sign Up'}
         </button>
+        <OAuth/>
       </form>
 
       <div>
