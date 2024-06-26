@@ -93,7 +93,7 @@ in backend add Oauth controller routes and model
 
 **********************************************************************
 
-
+updated header component with user profile and signout option
 
 
 

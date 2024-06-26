@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styles from "./header.module.css";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <div>
       <nav className={`navbar navbar-expand-lg fixed-top ${styles.header}`}>
@@ -46,13 +49,52 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/signin">
-                  <button
-                    className={`btn btn-outline-success  ${styles.loginButton} `}
-                  >
-                    Login
-                  </button>
-                </Link>
+                {currentUser ? (
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-light btn-outline-secondary dropdown-toggle"
+                      type="button"
+                      id="userMenu"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <img
+                        src={currentUser.profilePicture}
+                        alt="user"
+                        className="rounded-circle"
+                        width="30"
+                        height="30"
+                      />{" "}
+                      {currentUser.username}
+                    </button>
+                    <ul className="dropdown-menu" aria-labelledby="userMenu">
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          to="/dashboard?tab=profile"
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <hr className="dropdown-divider" />
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/signout">
+                          Sign out
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <Link to="/signin">
+                    <button
+                      className={`btn btn-outline-success ${styles.loginButton}`}
+                    >
+                      Login
+                    </button>
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
