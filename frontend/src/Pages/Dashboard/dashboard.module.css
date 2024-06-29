@@ -1,0 +1,35 @@
+.dashboardContainer {
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+    margin-top: 70px;
+    background-color: #f8f9fa;
+  }
+  
+  .sidebarContainer {
+    width: 20%;
+ background-color: #f8f9fa;
+ padding: 20px;
+ border-right: 1px solid #ddd;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profileContainer {
+    width: 80%;
+  }
+  
+ 
+  @media only screen and (max-width: 768px) {
+    .dashboardContainer {
+      flex-direction: column;
+      margin-top: 100px;
+    
+    }
+    .sidebarContainer {
+      width: 100%;
+     
+    }
+    .profileContainer {
+      width: 100%;
+    }
+  }

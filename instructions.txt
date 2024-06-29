@@ -100,6 +100,8 @@ updated header component with user profile and signout option
 created privateRoute component and added privateRoute
 
 **********************************************************************
+Added sidebar and user profile page in Dashboard 
+**********************************************************************
 
 
 
