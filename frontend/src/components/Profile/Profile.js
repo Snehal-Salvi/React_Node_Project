@@ -7,6 +7,9 @@ import {
   updateFailure,
   updateStart,
   updateSuccess,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from "../../Redux/user/userSlice";
 import { app } from "../../firebase";
 import {
@@ -15,13 +18,13 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { Alert, Button, Form, FormControl } from 'react-bootstrap';  
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { Alert, Button, Form, FormControl, Modal } from "react-bootstrap";
 import { BACKEND_URL } from "../../utils/constants";
 
 export default function Profile() {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -29,6 +32,7 @@ export default function Profile() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
@@ -98,16 +102,18 @@ export default function Profile() {
     }
     try {
       dispatch(updateStart());
-      const res = await fetch(`${BACKEND_URL}/api/user/update/${currentUser._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          
-        },
-        body: JSON.stringify(formData),
-        credentials: 'include',  
-      });
-      
+      const res = await fetch(
+        `${BACKEND_URL}/api/user/update/${currentUser._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include",
+        }
+      );
+
       const data = await res.json();
       if (!res.ok) {
         dispatch(updateFailure(data.message));
@@ -122,25 +128,50 @@ export default function Profile() {
     }
   };
 
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(
+        `${BACKEND_URL}/api/user/delete/${currentUser._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Include credentials if using cookies
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.message));
+      } else {
+        dispatch(deleteUserSuccess(data));
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Profile</h1>
 
       {updateUserSuccess && (
-        <Alert variant='success' className='mt-3'>
+        <Alert variant="success" className="mt-3">
           {updateUserSuccess}
         </Alert>
       )}
-      
+
       {updateUserError && (
-        <Alert variant='danger' className='mt-3'>
+        <Alert variant="danger" className="mt-3">
           {updateUserError}
         </Alert>
       )}
       <Form onSubmit={handleSubmit} className={styles.form}>
         <FormControl
-          type='file'
-          accept='image/*'
+          type="file"
+          accept="image/*"
           onChange={handleImageChange}
           ref={filePickerRef}
           hidden
@@ -150,28 +181,29 @@ export default function Profile() {
           onClick={() => filePickerRef.current.click()}
         >
           {imageFileUploadProgress && (
-            <CircularProgressbar
-              value={imageFileUploadProgress || 0}
-              text={`${imageFileUploadProgress}%`}
-              strokeWidth={5}
-              styles={{
-                root: {
-                  width: '5rem',
-                  height: '5rem',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                },
-                path: {
-                  stroke: `rgba(62, 152, 199, ${imageFileUploadProgress / 100})`,
-                },
-              }}
-            />
+            <div className={styles.circularProgress}>
+              <CircularProgressbar
+                value={imageFileUploadProgress || 0}
+                text={`${imageFileUploadProgress}%`}
+                strokeWidth={5}
+                styles={{
+                  path: {
+                    stroke: `rgba(62, 152, 199, ${
+                      imageFileUploadProgress / 100
+                    })`,
+                  },
+                  text: {
+                    fill: "#000",
+                    fontSize: "24px",
+                  },
+                }}
+              />
+            </div>
           )}
           <img
             src={imageFileUrl || currentUser.profilePicture}
             alt="user"
-            className={styles.profilePicture}
+            className={`${styles.profilePicture} img-fluid rounded-circle`}
             style={
               imageFileUploadProgress && imageFileUploadProgress < 100
                 ? { opacity: 0.6 }
@@ -180,7 +212,7 @@ export default function Profile() {
           />
         </div>
         {imageFileUploadError && (
-          <Alert variant='danger'>{imageFileUploadError}</Alert>
+          <Alert variant="danger">{imageFileUploadError}</Alert>
         )}
         <FormControl
           type="text"
@@ -210,15 +242,32 @@ export default function Profile() {
         </Button>
       </Form>
       <div className={styles.actions}>
-        <span className={styles.action}>
+        <span className={styles.action} onClick={() => setShowModal(true)}>
           <FontAwesomeIcon icon={faTrash} /> Delete Account
         </span>
         <span className={styles.action}>
           <FontAwesomeIcon icon={faSignOut} /> Sign Out
         </span>
       </div>
-    
-    
+      {error && (
+        <Alert variant="danger" className="mt-3">
+          {error}
+        </Alert>
+      )}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Account</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete your account?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteUser}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
