@@ -104,7 +104,28 @@ Added sidebar and user profile page in Dashboard
 **********************************************************************
 Added update user route in backend
 
+**********************************************************************
 
+for image upload functionality in frontend
+go to firebase website choose the project 
+click on build choose storage
+get started > next > done 
+click on rules
+and edit and paste below:
+ 
+ service firebase.storage {
+       match /b/{bucket}/o {
+         match /{allPaths=**} {
+           allow read;
+          allow write: if
+          request.resource.size < 2 * 1024 * 1024 &&
+          request.resource.contentType.matches('image/.*')
+        }
+       }
+     }
+
+and click on publish
+    
 
 
 
