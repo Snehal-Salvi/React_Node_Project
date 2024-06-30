@@ -102,6 +102,7 @@ created privateRoute component and added privateRoute
 **********************************************************************
 Added sidebar and user profile page in Dashboard 
 **********************************************************************
+Added update user route in backend
 
 
 

@@ -7,3 +7,4 @@ npm install @fortawesome/free-brands-svg-icons
 npm install @reduxjs/toolkit react-redux
 npm i redux-persist
 npm install firebase
+npm i react-circular-progressbar
