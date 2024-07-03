@@ -2,10 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styles from "./header.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signoutSuccess } from "../../Redux/user/userSlice";
+import { BACKEND_URL } from "../../utils/constants";
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/user/signout`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
@@ -80,7 +99,7 @@ export default function Header() {
                         <hr className="dropdown-divider" />
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/signout">
+                        <Link className="dropdown-item" onClick={handleSignout}>
                           Sign out
                         </Link>
                       </li>

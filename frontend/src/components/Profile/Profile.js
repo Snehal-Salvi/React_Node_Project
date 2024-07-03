@@ -10,6 +10,7 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signoutSuccess,
 } from "../../Redux/user/userSlice";
 import { app } from "../../firebase";
 import {
@@ -153,6 +154,22 @@ export default function Profile() {
     }
   };
 
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/user/signout`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Profile</h1>
@@ -245,7 +262,7 @@ export default function Profile() {
         <span className={styles.action} onClick={() => setShowModal(true)}>
           <FontAwesomeIcon icon={faTrash} /> Delete Account
         </span>
-        <span className={styles.action}>
+        <span className={styles.action} onClick={handleSignout}>
           <FontAwesomeIcon icon={faSignOut} /> Sign Out
         </span>
       </div>
