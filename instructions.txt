@@ -127,12 +127,12 @@ and edit and paste below:
 and click on publish
 
 **********************************************************************
-Adding delete user routes
+Adding delete user routes in backend
 Added delete user functionality in frontend
 
 **********************************************************************
 
-
+Added Signout routes in backend
 
 
 
